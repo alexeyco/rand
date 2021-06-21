@@ -8,6 +8,10 @@ install: ## Install dependencies
 		&& go mod vendor \
 		&& go mod verify
 
+.PHONY: generate
+generate: ## Generate files (e.g. mocks)
+	@mockgen -package rand_test -source reader.go -destination reader_test.go
+
 .PHONY: lint
 lint: ## Run linter
 	@golangci-lint --exclude-use-default=false run ./...
