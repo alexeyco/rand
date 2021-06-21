@@ -7,7 +7,7 @@ import (
 )
 
 func ExampleRandom_Int64() {
-	n, err := rand.New().Int64(10, 100)
+	n, err := rand.New().Int64(100, 10)
 	if err != nil {
 		log.Fatalln(err)
 	}
