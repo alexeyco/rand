@@ -1,0 +1,67 @@
+---
+name: CI Workflow
+on:
+  push:
+    tags:
+      - v*
+    branches:
+      - main
+      - develop
+  pull_request:
+jobs:
+  lint:
+    name: Lint source code [go${{ matrix.go }}]
+    runs-on: ${{ matrix.platform }}
+    strategy:
+      matrix:
+        platform:
+          - ubuntu-latesst
+        go:
+          - 1.14
+          - 1.15
+          - 1.x # Latest version
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+          path: ${{ github.workspace }}/go/src/github.com/alexeyco/rand
+      - uses: actions/setup-go@v2
+        with:
+          go-version: ${{ matrix.go-version }}
+      - run: go mod vendor
+        working-directory: ${{ github.workspace }}/go/src/github.com/alexeyco/rand
+      - uses: golangci/golangci-lint-action@v2
+        with:
+          working-directory: ${{ github.workspace }}/go/src/github.com/alexeyco/rand
+          version: latest
+  test:
+    name: Run tests [go${{ matrix.go }}]
+    runs-on: ${{ matrix.platform }}
+    strategy:
+      matrix:
+        platform:
+          - ubuntu-latesst
+        go:
+          - 1.14
+          - 1.15
+          - 1.x # Latest version
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+          path: ${{ github.workspace }}/go/src/github.com/alexeyco/rand
+      - uses: actions/setup-go@v2
+        with:
+          go-version: ${{ matrix.go-version }}
+      - run: go mod vendor
+        working-directory: ${{ github.workspace }}/go/src/github.com/alexeyco/rand
+      - run: go test -race -covermode atomic -coverprofile=coverage.out .
+        working-directory: ${{ github.workspace }}/go/src/github.com/alexeyco/rand
+      - run: go get github.com/mattn/goveralls
+        env:
+          GO111MODULE: off
+      - run: goveralls -coverprofile=coverage.out -service=github
+        env:
+          COVERALLS_TOKEN: ${{ github.token }}
+          GIT_BRANCH: ${{ github.head_ref }}
+        working-directory: ${{ github.workspace }}/go/src/github.com/alexeyco/rand

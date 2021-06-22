@@ -1,6 +1,6 @@
 # rand
 
-[![Build](https://github.com/alexeyco/rand/actions/workflows/test.yml/badge.svg)](https://github.com/alexeyco/rand/actions/workflows/test.yml)
+[![Build](https://github.com/alexeyco/rand/actions/workflows/ci.yml/badge.svg)](https://github.com/alexeyco/rand/actions/workflows/ci.yml)
 [![PkgGoDev](https://pkg.go.dev/badge/github.com/alexeyco/rand)](https://pkg.go.dev/github.com/alexeyco/rand)
 [![Go Report Card](https://goreportcard.com/badge/github.com/alexeyco/rand)](https://goreportcard.com/report/github.com/alexeyco/rand)
 [![Coverage Status](https://coveralls.io/repos/github/alexeyco/rand/badge.svg?branch=main)](https://coveralls.io/github/alexeyco/rand?branch=main)
