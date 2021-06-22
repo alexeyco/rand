@@ -24,8 +24,9 @@ jobs:
       - uses: actions/setup-go@v2
         with:
           go-version: ${{ matrix.go-version }}
-      - run: go get github.com/psampaz/go-mod-outdated
-      - run: go list -u -m -json all | go-mod-outdated -direct -ci
+      - run: |
+          GOBIN=$PWD/bin go install github.com/psampaz/go-mod-outdated
+          go list -u -m -json all | ./bin/go-mod-outdated -direct -ci
   lint:
     strategy:
       matrix:
