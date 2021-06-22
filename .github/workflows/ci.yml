@@ -10,16 +10,13 @@ on:
   pull_request:
 jobs:
   lint:
-    name: Lint source code [go${{ matrix.go }}]
-    runs-on: ${{ matrix.platform }}
     strategy:
       matrix:
         platform:
           - ubuntu-latest
         go:
-          - 1.14
-          - 1.15
-          - 1.x # Latest version
+          - latest
+    runs-on: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@v2
         with:
@@ -28,8 +25,6 @@ jobs:
       - uses: actions/setup-go@v2
         with:
           go-version: ${{ matrix.go-version }}
-      - run: go mod vendor
-        working-directory: ${{ github.workspace }}/go/src/github.com/alexeyco/rand
       - uses: golangci/golangci-lint-action@v2
         with:
           working-directory: ${{ github.workspace }}/go/src/github.com/alexeyco/rand
@@ -42,9 +37,7 @@ jobs:
         platform:
           - ubuntu-latest
         go:
-          - 1.14
-          - 1.15
-          - 1.x # Latest version
+          - latest
     steps:
       - uses: actions/checkout@v2
         with:
@@ -53,13 +46,14 @@ jobs:
       - uses: actions/setup-go@v2
         with:
           go-version: ${{ matrix.go-version }}
+      - run: go version
       - run: go mod vendor
-        working-directory: ${{ github.workspace }}/go/src/github.com/alexeyco/rand
-      - run: go test -race -covermode atomic -coverprofile=coverage.out .
         working-directory: ${{ github.workspace }}/go/src/github.com/alexeyco/rand
       - run: go get github.com/mattn/goveralls
         env:
           GO111MODULE: off
+      - run: go test -race -covermode atomic -coverprofile=coverage.out .
+        working-directory: ${{ github.workspace }}/go/src/github.com/alexeyco/rand
       - run: goveralls -coverprofile=coverage.out -service=github
         env:
           COVERALLS_TOKEN: ${{ github.token }}
