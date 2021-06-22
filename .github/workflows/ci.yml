@@ -46,12 +46,8 @@ jobs:
       - run: go version
       - run: go mod vendor
       - run: go test -race -covermode atomic -coverprofile=coverage.out .
-      - name: Install goveralls
-        env:
-          GO111MODULE: off
-        run: go get github.com/mattn/goveralls
-      - name: Upload coverage
-        env:
-          COVERALLS_TOKEN: ${{ github.token }}
-          GIT_BRANCH: ${{ github.head_ref }}
-        run: goveralls -coverprofile=coverage.out -service=github
+      - uses: shogo82148/actions-goveralls@v1
+        with:
+          path-to-profile: coverage.out
+          flag-name: Go-${{ matrix.go }}
+          parallel: true
