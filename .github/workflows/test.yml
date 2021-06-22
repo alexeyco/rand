@@ -6,6 +6,7 @@ on:
       - v*
     branches:
       - main
+      - develop
   pull_request:
 jobs:
   test:
@@ -36,7 +37,7 @@ jobs:
         uses: golangci/golangci-lint-action@v2
         with:
           working-directory: ${{ github.workspace }}/go/src/github.com/alexeyco/rand
-          version: v1.38.0
+          version: latest
       - name: Run tests
         working-directory: ${{ github.workspace }}/go/src/github.com/alexeyco/rand
         run: go test -race -covermode atomic -coverprofile=coverage.out .
