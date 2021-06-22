@@ -28,14 +28,13 @@ jobs:
         with:
           version: latest
   test:
-    name: Run tests [go${{ matrix.go }}]
-    runs-on: ${{ matrix.platform }}
     strategy:
       matrix:
         platform:
           - ubuntu-latest
         go:
           - latest
+    runs-on: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@v2
         with:
@@ -51,3 +50,10 @@ jobs:
           path-to-profile: coverage.out
           flag-name: Go-${{ matrix.go }}
           parallel: true
+  finish:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: shogo82148/actions-goveralls@v1
+        with:
+          parallel-finished: true
