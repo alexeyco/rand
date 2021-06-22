@@ -46,6 +46,9 @@ jobs:
         with:
           version: latest
   test:
+    needs:
+      - outdated
+      - lint
     strategy:
       matrix:
         platform:
