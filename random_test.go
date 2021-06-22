@@ -25,7 +25,7 @@ func TestRandom_Int64(t *testing.T) {
 
 		n, err := rand.New().Int64(10)
 
-		assert.Greater(t, n, int64(0))
+		assert.GreaterOrEqual(t, n, int64(0))
 		assert.Less(t, n, int64(10))
 		assert.NoError(t, err)
 	})
