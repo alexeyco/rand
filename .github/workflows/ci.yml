@@ -15,7 +15,7 @@ jobs:
     strategy:
       matrix:
         platform:
-          - ubuntu-latesst
+          - ubuntu-latest
         go:
           - 1.14
           - 1.15
@@ -40,7 +40,7 @@ jobs:
     strategy:
       matrix:
         platform:
-          - ubuntu-latesst
+          - ubuntu-latest
         go:
           - 1.14
           - 1.15
