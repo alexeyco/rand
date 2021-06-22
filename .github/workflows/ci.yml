@@ -49,13 +49,15 @@ jobs:
       - run: go version
       - run: go mod vendor
         working-directory: ${{ github.workspace }}/go/src/github.com/alexeyco/rand
-      - run: go get github.com/mattn/goveralls
-        env:
-          GO111MODULE: off
       - run: go test -race -covermode atomic -coverprofile=coverage.out .
         working-directory: ${{ github.workspace }}/go/src/github.com/alexeyco/rand
-      - run: goveralls -coverprofile=coverage.out -service=github
+      - name: Install goveralls
+        env:
+          GO111MODULE: off
+        run: go get github.com/mattn/goveralls
+      - name: Upload coverage
         env:
           COVERALLS_TOKEN: ${{ github.token }}
           GIT_BRANCH: ${{ github.head_ref }}
-        working-directory: ${{ github.workspace }}/go/src/github.com/alexeyco/rand
+        working-directory: ${{ github.workspace }}/go/src/github.com/alexeyco/time
+        run: goveralls -coverprofile=coverage.out -service=github
