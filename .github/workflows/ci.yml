@@ -9,6 +9,23 @@ on:
       - develop
   pull_request:
 jobs:
+  outdated:
+    strategy:
+      matrix:
+        platform:
+          - ubuntu-latest
+        go:
+          - latest
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-go@v2
+        with:
+          go-version: ${{ matrix.go-version }}
+      - run: go get github.com/psampaz/go-mod-outdated
+      - run: go list -u -m -json all | go-mod-outdated -direct -ci
   lint:
     strategy:
       matrix:
